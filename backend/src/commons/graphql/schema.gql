@@ -1,0 +1,271 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserGrade {
+  id: String!
+  gradeName: String!
+}
+
+type User {
+  id: String!
+  name: String!
+  email: String!
+  phone: String!
+  loginId: String!
+  rrn: String!
+  nickname: String!
+  provider: String!
+  userGrade: UserGrade!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Owner {
+  id: String!
+  name: String!
+  email: String!
+  phone: String!
+  loginId: String!
+  rrn: String!
+  nickname: String!
+  provider: String!
+  subscribeStatus: SUBSCRIBE_STATUS_ENUM!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
+}
+
+enum SUBSCRIBE_STATUS_ENUM {
+  SUBSCRIBE
+  UNSUBSCRIBE
+}
+
+type Board {
+  id: String!
+  boardName: String!
+  createdAt: DateTime!
+}
+
+type FoodType {
+  id: String!
+  typeName: String!
+}
+
+type Store {
+  id: String!
+  owner: Owner!
+  storeName: String!
+  address: String!
+  latitude: Float!
+  longitude: Float!
+  category: String!
+  createdAt: DateTime!
+}
+
+type Post {
+  id: String!
+  board: Board!
+  store: Store!
+  foodType: FoodType!
+  user: User!
+  tags: [Tag!]!
+  title: String!
+  contents: String!
+  likeCount: Int!
+  dislikeCount: Int!
+  hitCount: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
+}
+
+type Tag {
+  id: String!
+  tagName: String!
+  posts: [Post!]!
+}
+
+type Product {
+  id: String!
+  productName: String!
+  description: String!
+  price: Int!
+}
+
+type SubscribeTransaction {
+  id: String!
+  impUid: String!
+  amount: Int!
+  status: SUBSCRIBE_TRANSACTION_STATUS_ENUM!
+  subscriptionStartDate: DateTime!
+  subscriptionEndDate: DateTime!
+  owner: Owner!
+  product: Product!
+  createdAt: DateTime!
+}
+
+enum SUBSCRIBE_TRANSACTION_STATUS_ENUM {
+  PAYMENT
+  CANCEL
+}
+
+type Query {
+  fetchOwners: [Owner!]!
+  fetchOwnersWithDeleted: [Owner!]!
+  fetchOwner(ownerId: String!): Owner!
+  fetchLoginOwner: Owner!
+  fetchPosts(search: String!, type: SEARCH_TYPE_ENUM!): [Post!]!
+  fetchPostsWithDeleted: [Post!]!
+  fetchPost(postId: String!): Post!
+  fetchProducts: [Product!]!
+  fetchProductsWithDeleted: [Product!]!
+  fetchProduct(productId: String!): Product!
+  fetchUsers: [User!]!
+  fetchUsersWithDeleted: [User!]!
+  fetchUser(userId: String!): User!
+  fetchLoginUser: User!
+  fetchUserGrades: [UserGrade!]!
+  fetchUserGradesWithDeleted: [UserGrade!]!
+  fetchUserGrade(userGradeId: String!): UserGrade!
+}
+
+enum SEARCH_TYPE_ENUM {
+  TITLE
+  CONTENTS
+}
+
+type Mutation {
+  login(email: String!, password: String!): String!
+  logout: String!
+  restoreAccessToken: String!
+  uploadFile(files: [Upload!]!): [String!]!
+  createOwner(createOwnerInput: CreateOwnerInput!): Owner!
+  updateOwner(ownerId: String!, updateOwnerInput: UpdateOwnerInput!): Owner!
+  deleteOwner(ownerId: String!): Boolean!
+  restoreOwner(ownerId: String!): Boolean!
+  updateLoginOwnerPassword(updatePassword: String!): Owner!
+  deleteLoginOwner: Boolean!
+  ownerLogin(email: String!, password: String!): String!
+  ownerLogout: String!
+  restoreOwnerAccessToken: String!
+  createPost(createPostInput: CreatePostInput!): Post!
+  updatePost(postId: String!, updatePostInput: UpdatePostInput!): Post!
+  deletePost(postId: String!): Boolean!
+  restorePost(postId: String!): Boolean!
+  createImages(postId: String!, urls: [String!]!): Boolean!
+  updateImages(postId: String!, urls: [String!]!): Boolean!
+  createProduct(createProductInput: CreateProductInput!): Product!
+  updateProduct(productId: String!, updateProductInput: UpdateProductInput!): Product!
+  deleteProduct(productId: String!): Boolean!
+  restoreProduct(productId: String!): Boolean!
+  createSubscribeTransaction(impUid: String!, amount: Float!, productId: String!): SubscribeTransaction!
+  cancelSubscribeTransaction(impUid: String!, amount: Float!): SubscribeTransaction!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(userId: String!, updateUserInput: UpdateUserInput!): User!
+  deleteUser(userId: String!): Boolean!
+  restoreUser(userId: String!): Boolean!
+  updateLoginUserPassword(updatePassword: String!): User!
+  deleteLoginUser: Boolean!
+  createUserGrade(gradeName: String!): UserGrade!
+  updateUserGrade(userGradeId: String!, gradeName: String!): UserGrade!
+  deleteUserGrade(userGradeId: String!): Boolean!
+  restoreUserGrade(userGradeId: String!): Boolean!
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input CreateOwnerInput {
+  name: String!
+  email: String!
+  phone: String!
+  password: String!
+  loginId: String
+  rrn: String
+  nickname: String
+  provider: String = "SITE"
+  subscribeStatus: SUBSCRIBE_STATUS_ENUM
+}
+
+input UpdateOwnerInput {
+  name: String
+  email: String
+  phone: String
+  password: String
+  loginId: String
+  rrn: String
+  nickname: String
+  provider: String = "SITE"
+  subscribeStatus: SUBSCRIBE_STATUS_ENUM
+}
+
+input CreatePostInput {
+  title: String!
+  contents: String!
+  likeCount: Int
+  dislikeCount: Int
+  hitCount: Int
+  updateDate: DateTime
+  boardId: String!
+  storeId: String!
+  foodTypeId: String!
+  userId: String!
+  tags: [String!]!
+}
+
+input UpdatePostInput {
+  title: String
+  contents: String
+  likeCount: Int
+  dislikeCount: Int
+  hitCount: Int
+  updateDate: DateTime
+  boardId: String
+  storeId: String
+  foodTypeId: String
+  userId: String
+  tags: [String!]
+}
+
+input CreateProductInput {
+  productName: String!
+  description: String!
+  price: Int!
+}
+
+input UpdateProductInput {
+  productName: String
+  description: String
+  price: Int
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  phone: String!
+  password: String!
+  loginId: String
+  rrn: String
+  nickname: String
+  provider: String = "SITE"
+  userGradeId: String
+}
+
+input UpdateUserInput {
+  name: String
+  email: String
+  phone: String
+  password: String
+  loginId: String
+  rrn: String
+  nickname: String
+  provider: String = "SITE"
+  userGradeId: String
+}

@@ -1,0 +1,81 @@
+#1
+DELETE http://localhost:9200/mypost/
+
+#2
+POST http://localhost:9200/mypost/_doc
+{
+	"a":""
+}
+
+#3
+POST http://localhost:9200/mypost/_close
+
+#4
+PUT http://localhost:9200/mypost/_settings
+{
+	"settings": {
+        "analysis": {
+          "analyzer": {
+            "my_analyzer": {
+              "tokenizer": "my_ngram_tokenizer",
+              "filter": ["lowercase","my_stop_filter"]
+            }
+          },
+          "tokenizer": {
+            "my_ngram_tokenizer": {
+              "type": "nGram",
+              "min_gram": "1",
+              "max_gram": "10"
+            }
+          },
+          "filter": {
+          	"my_stop_filter": {
+          		"type": "stop",
+          		"stopwords": ["in","the"]
+          	}
+          }
+        },
+        "max_ngram_diff" : "20"
+    }
+}
+
+#5
+PUT http://localhost:9200/mypost/_mappings
+{
+      "properties": {
+        "title": {
+          "type": "text",
+          "analyzer": "my_analyzer"
+        },
+        "contents": {
+          "type": "text",
+          "analyzer": "my_analyzer"
+        }
+      }
+    }
+
+#6
+POST http://localhost:9200/mypost/_open
+
+#7
+GET http://localhost:9200/mypost/_search
+
+#8
+POST http://localhost:9200/mypost/_doc
+{
+  "id": "a2837d12387d2138kjeqwwc",
+	"title": "제목입니다 안녕하세요",
+	"contents": "본문입니다 안녕"
+}
+
+#9
+POST http://localhost:9200/mypost/_search
+{
+	"query": {
+		"prefix": {
+			"title": {
+				"value": "목입니"
+			}
+		}
+	}
+}
