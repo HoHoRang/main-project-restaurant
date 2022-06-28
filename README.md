@@ -120,14 +120,195 @@ https://hohorang.shop/graphql (백엔드 서버에요. 비용이 나가서 지�
 ```
 yarn install # 모듈 설치
 
-yarn start:dev # 백엔드 서버 실행
+docker-compose build # 백엔드 및 DB 등 빌드(docker-compose.yaml 파일 참조)
+
+docker-compose up # 백엔드 및 DB 실행
 ```
 
 <br>
 
 ## 8. 폴더 구조
 
-![1](https://user-images.githubusercontent.com/15374108/167302984-70de4908-d1fd-4543-a52c-c89305c91376.png)
+```
+.
+├── README.md
+├── backend
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── docker-compose.yaml
+│   ├── elk
+│   │   ├── elasticsearch
+│   │   ├── kibana
+│   │   └── logstash
+│   │       ├── logstash.conf
+│   │       ├── mysql-connector-java-8.0.28.jar
+│   │       └── post_template.json
+│   ├── gcp-file-storage.json
+│   ├── nest-cli.json
+│   ├── package.json
+│   ├── src
+│   │   ├── apis
+│   │   │   ├── \010followInfo
+│   │   │   │   └── entities
+│   │   │   │       └── followInfo.entity.ts
+│   │   │   ├── \010wishlist
+│   │   │   │   └── entities
+│   │   │   │       └── wishlist.entity.ts
+│   │   │   ├── auth
+│   │   │   │   ├── auth.controller.ts
+│   │   │   │   ├── auth.module.ts
+│   │   │   │   ├── auth.resolver.ts
+│   │   │   │   ├── auth.service.ts
+│   │   │   │   ├── owner.auth.controller.ts
+│   │   │   │   ├── owner.auth.module.ts
+│   │   │   │   ├── owner.auth.resolver.ts
+│   │   │   │   └── owner.auth.service.ts
+│   │   │   ├── board
+│   │   │   │   ├── board.module.ts
+│   │   │   │   ├── board.resolver.ts
+│   │   │   │   ├── board.service.ts
+│   │   │   │   ├── dto
+│   │   │   │   │   ├── createBoard.input.ts
+│   │   │   │   │   └── updateBoard.input.ts
+│   │   │   │   └── entities
+│   │   │   │       └── board.entity.ts
+│   │   │   ├── comment
+│   │   │   │   └── entities
+│   │   │   │       └── comment.entity.ts
+│   │   │   ├── favoriteFood
+│   │   │   │   └── entities
+│   │   │   │       └── favoriteFood.entity.ts
+│   │   │   ├── file
+│   │   │   │   ├── file.module.ts
+│   │   │   │   ├── file.resolver.ts
+│   │   │   │   └── file.service.ts
+│   │   │   ├── foodType
+│   │   │   │   ├── entities
+│   │   │   │   │   └── foodType.entity.ts
+│   │   │   │   ├── foodType.module.ts
+│   │   │   │   ├── foodType.resolver.ts
+│   │   │   │   └── foodType.service.ts
+│   │   │   ├── iamport
+│   │   │   │   └── iamport.service.ts
+│   │   │   ├── owner
+│   │   │   │   ├── dto
+│   │   │   │   │   ├── createOwner.input.ts
+│   │   │   │   │   └── updateOwner.input.ts
+│   │   │   │   ├── entities
+│   │   │   │   │   └── owner.entity.ts
+│   │   │   │   ├── owner.module.ts
+│   │   │   │   ├── owner.resolver.ts
+│   │   │   │   └── owner.service.ts
+│   │   │   ├── post
+│   │   │   │   ├── dto
+│   │   │   │   │   ├── createPost.input.ts
+│   │   │   │   │   └── updatePost.input.ts
+│   │   │   │   ├── entities
+│   │   │   │   │   └── post.entity.ts
+│   │   │   │   ├── post.module.ts
+│   │   │   │   ├── post.resolver.ts
+│   │   │   │   └── post.service.ts
+│   │   │   ├── postFile
+│   │   │   │   └── entities
+│   │   │   │       └── postFile.entity.ts
+│   │   │   ├── postImage
+│   │   │   │   ├── entities
+│   │   │   │   │   └── postImage.entity.ts
+│   │   │   │   ├── postImage.module.ts
+│   │   │   │   ├── postImage.resolver.ts
+│   │   │   │   └── postImage.service.ts
+│   │   │   ├── product
+│   │   │   │   ├── dto
+│   │   │   │   │   ├── createProduct.input.ts
+│   │   │   │   │   └── updateProduct.input.ts
+│   │   │   │   ├── entities
+│   │   │   │   │   └── product.entity.ts
+│   │   │   │   ├── product.module.ts
+│   │   │   │   ├── product.resolver.ts
+│   │   │   │   └── product.service.ts
+│   │   │   ├── store
+│   │   │   │   ├── dto
+│   │   │   │   │   ├── createStore.input.ts
+│   │   │   │   │   └── updateStore.input.ts
+│   │   │   │   ├── entities
+│   │   │   │   │   └── store.entity.ts
+│   │   │   │   ├── store.module.ts
+│   │   │   │   ├── store.resolver.ts
+│   │   │   │   └── store.service.ts
+│   │   │   ├── subscribeTransaction
+│   │   │   │   ├── entities
+│   │   │   │   │   └── subscribeTransaction.entity.ts
+│   │   │   │   ├── subscribeTransaction.module.ts
+│   │   │   │   ├── subscribeTransaction.resolver.ts
+│   │   │   │   └── subscribeTransaction.service.ts
+│   │   │   ├── tag
+│   │   │   │   └── entities
+│   │   │   │       └── tag.entity.ts
+│   │   │   ├── user
+│   │   │   │   ├── dto
+│   │   │   │   │   ├── createUser.input.ts
+│   │   │   │   │   └── updateUser.input.ts
+│   │   │   │   ├── entities
+│   │   │   │   │   └── user.entity.ts
+│   │   │   │   ├── user.module.ts
+│   │   │   │   ├── user.resolver.ts
+│   │   │   │   └── user.service.ts
+│   │   │   └── userGrade
+│   │   │       ├── entities
+│   │   │       │   └── userGrade.entity.ts
+│   │   │       ├── userGrade.module.ts
+│   │   │       ├── userGrade.resolver.ts
+│   │   │       └── userGrade.service.ts
+│   │   ├── app.module.ts
+│   │   ├── commons
+│   │   │   ├── auth
+│   │   │   │   ├── gql-auth.guard.ts
+│   │   │   │   ├── gql-user.param.ts
+│   │   │   │   ├── jwt-access.strategy.ts
+│   │   │   │   ├── jwt-refresh.strategy.ts
+│   │   │   │   ├── jwt-social-google-owner.strategy.ts
+│   │   │   │   ├── jwt-social-google.strategy.ts
+│   │   │   │   ├── jwt-social-kakao-owner.strategy.ts
+│   │   │   │   ├── jwt-social-kakao.strategy.ts
+│   │   │   │   ├── jwt-social-naver-owner.strategy.ts
+│   │   │   │   └── jwt-social-naver.strategy.ts
+│   │   │   ├── filter
+│   │   │   │   └── http-exception.filter.ts
+│   │   │   └── graphql
+│   │   │       └── schema.gql
+│   │   └── main.ts
+│   ├── test
+│   │   ├── app.e2e-spec.ts
+│   │   └── jest-e2e.json
+│   ├── tsconfig.build.json
+│   ├── tsconfig.json
+│   └── yarn.lock
+├── docs
+│   ├── ERD.png
+│   ├── Elastic Search 테스트.txt
+│   ├── main-project pipeline.drawio
+│   └── main-project pipeline.png
+├── frontend
+│   ├── img
+│   │   ├── back-ground.jpg
+│   │   ├── facebook.png
+│   │   ├── google.png
+│   │   ├── kakao.png
+│   │   ├── menu-back-ground.jpg
+│   │   ├── naver.png
+│   │   ├── starbucks.png
+│   │   └── user-back-ground.jpg
+│   ├── login
+│   │   ├── index.css
+│   │   └── index.html
+│   └── payment.html
+└── functions
+    ├── gcp-file-storage.json
+    ├── generateThumbnail.js
+    ├── generateThumbnailTest.js
+    ├── package.json
+    └── yarn.lock
+```
 
 - **backend**
 
@@ -137,8 +318,6 @@ yarn start:dev # 백엔드 서버 실행
     각종 Entity 및 Entity 별 API 구현, 그리고 인증(auth)과 결제(iamport) API 구현
   - **commons**  
     인증(auth) - access, refresh token strategy 구현 및 소셜 로그인 strategy 구현
-
-![2](https://user-images.githubusercontent.com/15374108/167302988-17776bae-2e71-42ed-921d-ab24d0f60082.png)
 
 - **backend**
 
@@ -154,7 +333,31 @@ yarn start:dev # 백엔드 서버 실행
 
 ## 9. .env 설정
 
-![image](https://user-images.githubusercontent.com/15374108/167303352-0fa96a7b-66e4-4713-9d97-079414473824.png)
+```
+SMS_APP_KEY=
+SMS_X_SECRET_KEY=
+SMS_SENDER=
+
+MAIL_APP_KEY=
+MAIL_X_SECRET_KEY=
+MAIL_SENDER=
+
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+NAVER_CLIENT_ID=
+NAVER_CLIENT_SECRET=
+
+KAKAO_CLIENT_ID=
+KAKAO_CLIENT_SECRET=
+
+IMPORT_API_KEY=
+IMPORT_API_SECRET=
+
+STORAGE_BUCKET=
+STORAGE_KEY_FILENAME=
+STORAGE_PROJECT_ID=
+```
 
 - SMS, Mail 전송에 필요한 App Key 및 Secret Key 관리
 - Google, Naver, Kakao 등 소셜 로그인에 필요한 Key 관리
